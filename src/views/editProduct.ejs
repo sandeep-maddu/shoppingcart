@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+  <div class="container">
+	<%- include partials/navigation.ejs %>
+</div>
+
+<form action="/admin/product/<%=product.id%>" method="post">
+  <input type="hidden" name="_method" value="put" />
+  <fieldset>
+    <legend>Edit product</legend>
+    Product name:<br>
+    <input type="text" name="name" value="<%=product.name%>">
+    <br>
+
+    Category:<br>
+    <input type="text" name="category" value="<%=product.category%>">
+    <br>
+
+    MRP:<br>
+    <input type="text" name="MRP" value="<%=product.MRP%>">
+    <br>
+
+    Seller:<br>
+    <input type="text" name="seller" value="<%=product.seller%>">
+    <br>
+
+    Description:<br>
+    <input type="text" name="description" value="<%=product.description%>">
+    <br>
+
+    Average customer rating:<br>
+    <input type="text" name="rating" value="<%=product.average_customer_rating%>">
+    <br>
+
+    Expected delivery date:<br>
+    <input type="text" name="deliverydate" value="<%=product.expected_delivery_date%>">
+    <br>
+
+
+
+    <br><br>
+    <input type="submit" value="Edit">
+  </fieldset>
+</form>
+
+</body>
+</html>

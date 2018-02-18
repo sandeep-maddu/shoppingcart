@@ -1,0 +1,39 @@
+var modifyController = function(Product) {
+
+var put = function(req,res) {
+
+  Product.findById(req.params.id, function(err,product) {
+  product.name = req.body.name;
+  product.category = req.body.category;
+  product.MRP = req.body.MRP;
+  product.seller = req.body.seller;
+  product.description = req.body.description;
+  product.average_customer_rating = req.body.average_customer_rating;
+  product.expected_delivery_date = req.body.expected_delivery_date;
+  product.image = req.body.image;
+  product.save();
+  res.send(product);
+  });
+
+}
+
+var del = function(req,res) {  //to delete a product
+  Product.findById(req.params.id, function(err1,product) {
+  product.remove(function(err2) {
+  if(err2) {
+  res.status(500).send(err2);
+  }
+  else {
+  res.render('removed');
+  }
+  });
+})
+}
+
+return {
+put:put,
+delete:del
+}
+}
+
+module.exports = modifyController;

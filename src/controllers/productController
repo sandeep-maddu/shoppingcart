@@ -1,0 +1,30 @@
+var productController = function(Product) {
+
+var post = function(req,res) {  //to add a product
+  var product = new Product(req.body);
+  product.save(function(err,result) {
+  if(err) {
+  res.status(200).send(err);
+  }
+  res.status(201).send(product);
+  });
+
+}
+
+var get = function(req,res) //adding data
+  {
+  var collection = db.collection('products');
+  collection.insertMany(products,function(err,results)
+      {
+        res.send(results);
+      });
+
+  }
+
+return {
+post:post,
+get:get
+}
+}
+
+module.exports = productController;

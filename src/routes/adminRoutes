@@ -1,0 +1,120 @@
+var mongoose = require('mongoose');
+//mongoose.connect('mongodb://localhost/ecommerce');
+//var db = mongoose.connection;
+var db = mongoose.connect('mongodb://localhost/ecommerce');
+
+var Product = require('../models/productModel');
+
+var products=[
+
+      {
+      name:"Learn Javascript in 30 days",
+      category:"books",
+      MRP:650,
+      seller:"ABC Publishers",
+      description:"practical guide to learn Javascript",
+      average_customer_rating:4.5,
+      expected_delivery_date:"20-02-2018",
+      image:"public/images/product0.jpg"
+    },
+
+    {
+    name:"Learn PHP in 30 days",
+    category:"CD",
+    MRP:900,
+    seller:"DEF Publishers",
+    description:"guide to learn PHP",
+    average_customer_rating:3.8,
+    expected_delivery_date:"25-02-2018",
+    image:"public/images/product1.jpg"
+  }
+
+]
+
+
+var express = require('express');
+var adminRouter = express.Router();
+var router = function() {
+
+var productController = require('../controllers/productController')(Product);
+var modifyController = require('../controllers/modifyController')(Product)
+
+adminRouter.route('/')
+  .get(function(req,res) {
+  res.render('admin');
+  });
+
+adminRouter.route('/product')
+  .post(productController.post)
+  .get(productController.get)
+
+adminRouter.route('/product/:id')
+    .post(modifyController.put)
+    .put(modifyController.put)
+    .delete(modifyController.delete);
+
+adminRouter.route('/delete/:id')
+
+    .post(modifyController.delete);
+
+
+adminRouter.route('/products')
+
+    .get(function(req,res) {
+
+      Product.find(function(err,results) {
+        if(err) {
+          res.status(500).send(err);
+        }
+        else {
+        res.render('productEditView', {products:results});
+      }
+      });
+    });
+
+    adminRouter.route('/productDelete')
+
+        .get(function(req,res) {
+
+          Product.find(function(err,results) {
+            if(err) {
+              res.status(500).send(err);
+            }
+            else {
+            res.render('productDeleteView', {products:results});
+          }
+          });
+        });
+
+adminRouter.route('/products/:id')
+    .get(function(req,res) {
+
+      Product.findById(req.params.id, function(err,result) {
+        res.render('editProduct', {product:result});
+      });
+
+    });
+
+
+adminRouter.route('/temp/:id')
+    .get(function(req,res) {
+
+      Product.findById(req.params.id, function(err,result) {
+        res.render('editProduct', {product:result});
+      });
+
+    });
+
+adminRouter.route('/delete/:id')
+    .get(function(req,res) {
+
+      Product.findById(req.params.id, function(err,result) {
+        res.render('deleteProduct', {product:result});
+      });
+
+    });
+
+return adminRouter;
+  }
+
+module.exports = router;
